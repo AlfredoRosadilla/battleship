@@ -4,7 +4,7 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { TILE_RESULTS } from './../constants/dashboard';
 import GameBoard from './../components/organisms/GameBoard';
 
-export const Wrapper = styled.section`
+const Wrapper = styled.section`
   width: 90%;
   max-width: 760px;
 `;
@@ -37,7 +37,7 @@ function Dashboard({ boardSize, layout }) {
   }, []);
 
   return (
-    <div className="container">
+    <Wrapper>
       <h1 className="title">Battleship</h1>
 
       <GameBoard
@@ -66,7 +66,7 @@ function Dashboard({ boardSize, layout }) {
           <h3 key={ship}>💥The {ship} has been sunk!💥</h3>
         ))}
       </div>
-    </div>
+    </Wrapper>
   );
 }
 
@@ -158,67 +158,84 @@ Methods.prototype.handleShot = function handleShot(x, y) {
   }
 };
 
+function validateLayout(layout) {
+  const occupiedPositions = new Set();
+
+  for (const ship of layout) {
+    for (const position of ship.positions) {
+      const key = `${position[0]},${position[1]}`;
+      if (occupiedPositions.has(key)) {
+        throw new Error(`Overlapping ships detected at position ${key}`);
+      }
+      occupiedPositions.add(key);
+    }
+  }
+  return true;
+}
+
 /**
  * @param {Object} ctx
  * @returns {Object} instance data and next context
  */
 export async function getServerSideProps(ctx) {
-  return {
-    props: {
-      boardSize: 10,
-      shipTypes: {
-        carrier: { size: 5, count: 1 },
-        battleship: { size: 4, count: 1 },
-        cruiser: { size: 3, count: 1 },
-        destroyer: { size: 2, count: 1 },
-        submarine: { size: 3, count: 1 },
-      },
-      layout: [
-        {
-          ship: 'carrier',
-          positions: [
-            [2, 9],
-            [3, 9],
-            [4, 9],
-            [5, 9],
-            [6, 9],
-          ],
-        },
-        {
-          ship: 'battleship',
-          positions: [
-            [5, 2],
-            [5, 3],
-            [5, 4],
-            [5, 5],
-          ],
-        },
-        {
-          ship: 'cruiser',
-          positions: [
-            [8, 1],
-            [8, 2],
-            [8, 3],
-          ],
-        },
-        {
-          ship: 'submarine',
-          positions: [
-            [3, 0],
-            [3, 1],
-            [3, 2],
-          ],
-        },
-        {
-          ship: 'destroyer',
-          positions: [
-            [0, 0],
-            [1, 0],
-          ],
-        },
-      ],
+  const props = {
+    boardSize: 10,
+    shipTypes: {
+      carrier: { size: 5, count: 1 },
+      battleship: { size: 4, count: 1 },
+      cruiser: { size: 3, count: 1 },
+      destroyer: { size: 2, count: 1 },
+      submarine: { size: 3, count: 1 },
     },
+    layout: [
+      {
+        ship: 'carrier',
+        positions: [
+          [2, 9],
+          [3, 9],
+          [4, 9],
+          [5, 9],
+          [6, 9],
+        ],
+      },
+      {
+        ship: 'battleship',
+        positions: [
+          [5, 2],
+          [5, 3],
+          [5, 4],
+          [5, 5],
+        ],
+      },
+      {
+        ship: 'cruiser',
+        positions: [
+          [8, 1],
+          [8, 2],
+          [8, 3],
+        ],
+      },
+      {
+        ship: 'submarine',
+        positions: [
+          [3, 0],
+          [3, 1],
+          [3, 2],
+        ],
+      },
+      {
+        ship: 'destroyer',
+        positions: [
+          [0, 0],
+          [1, 0],
+        ],
+      },
+    ],
   };
+
+  validateLayout(props.layout); // Si hay un error, se lanzará una excepción aquí
+
+  return { props };
 }
 
 export default Dashboard;

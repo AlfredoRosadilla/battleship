@@ -5,6 +5,12 @@ import styled from 'styled-components';
 import Tile from './../../atoms/Tile';
 import { TILE_RESULTS } from './../../../constants/dashboard';
 
+const GameWrapper = styled.section`
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+`;
+
 const Column = styled.div`
   flex-direction: column;
   display: flex;
@@ -38,20 +44,22 @@ function GameBoard({
   }
 
   return (
-    <Column className={`${className}`} data-testid={`${testId}-game-board`}>
-      {virtualBoard.map((column, x) => (
-        <Row key={`column-${x}`}>
-          {column.map((cellValue, y) => (
-            <Tile
-              key={`tile-${x}-${y}`}
-              onShot={() => onShot(x, y)}
-              testId={`${testId}-tile-${x}-${y}`}
-              status={methods.getTileStatus(x, y, cellValue)}
-            />
-          ))}
-        </Row>
-      ))}
-    </Column>
+    <GameWrapper>
+      <Column className={`${className}`} data-testid={`${testId}-game-board`}>
+        {virtualBoard.map((column, x) => (
+          <Row key={`column-${x}`}>
+            {column.map((cellValue, y) => (
+              <Tile
+                key={`tile-${x}-${y}`}
+                onShot={() => onShot(x, y)}
+                testId={`${testId}-tile-${x}-${y}`}
+                status={methods.getTileStatus(x, y, cellValue)}
+              />
+            ))}
+          </Row>
+        ))}
+      </Column>
+    </GameWrapper>
   );
 }
 
