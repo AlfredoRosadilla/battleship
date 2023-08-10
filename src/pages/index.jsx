@@ -136,9 +136,11 @@ Methods.prototype.handleShot = function handleShot(x, y) {
       });
 
       if (isSunk) {
-        setSunkShips((prevSunkShips) => [...prevSunkShips, shipHit]);
+        setSunkShips((prevSunkShips) => {
+          console.log(`Adding ${shipHit} to sunk ships`);
 
-        console.log(`The ${shipHit} has been sunk!`);
+          return [...prevSunkShips, shipHit];
+        });
       }
     }
   }

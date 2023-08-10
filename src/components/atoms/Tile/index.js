@@ -35,10 +35,16 @@ const Wrapper = styled.button`
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  animation: ${({ status }) => 
-    status === TILE_RESULTS.HIT ? css`${hitAnimation} 0.5s ease` : 
-    status === TILE_RESULTS.MISS ? css`${missAnimation} 0.5s ease` : 
-    'none'};
+  animation: ${({ status }) =>
+    status === TILE_RESULTS.HIT
+      ? css`
+          ${hitAnimation} 0.5s ease
+        `
+      : status === TILE_RESULTS.MISS
+      ? css`
+          ${missAnimation} 0.5s ease
+        `
+      : 'none'};
 `;
 
 /**
