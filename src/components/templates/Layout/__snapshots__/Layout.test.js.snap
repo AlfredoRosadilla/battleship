@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Layout /> Snapshot testing with className 1`] = `
+<div
+  class="sc-bdvvtL jluOGi test-class-name"
+  data-testid="test-id-container"
+>
+  <div />
+</div>
+`;
+
+exports[`<Layout /> Snapshot testing with defaultProps 1`] = `
+<div
+  class="sc-bdvvtL jluOGi"
+  data-testid="test-id-container"
+>
+  <div />
+</div>
+`;
