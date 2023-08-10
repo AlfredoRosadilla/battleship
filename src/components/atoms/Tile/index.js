@@ -43,6 +43,10 @@ const Wrapper = styled.button`
           ${missAnimation} 0.5s ease
         `
       : 'none'};
+
+  @media (max-width: 500px) {
+    font-size: 16px;
+  }
 `;
 
 /**
