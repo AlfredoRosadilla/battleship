@@ -3,4 +3,3 @@ export const TILE_RESULTS = {
   MISS: 'miss',
   HIDE: 'hide',
 };
-

@@ -19,6 +19,7 @@ const Column = styled.div`
 const Row = styled.div`
   display: flex;
   justify-content: center;
+  max-width: 100vw;
 `;
 
 /**

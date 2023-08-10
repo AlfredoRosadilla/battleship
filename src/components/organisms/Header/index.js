@@ -6,13 +6,13 @@ const Wrapper = styled.header`
   background-color: hsl(240deg 100% 79.22%);
   align-items: center;
   justify-content: space-around;
-  display: flex;  
+  display: flex;
   height: 60px;
   width: 100vw;
 `;
 
 const Container = styled.section`
-  display: flex;  
+  display: flex;
   height: 40px;
   justify-content: space-between;
   padding: 0 16px;
@@ -48,7 +48,7 @@ const MenuWrapper = styled.div`
 `;
 
 const OtherMenusWrapper = styled(MenuWrapper)`
-  @media(max-width: 768px) {
+  @media (max-width: 768px) {
     display: none;
   }
 `;
@@ -66,9 +66,9 @@ function Header({ className, testId }) {
         <SearchWrapper />
         <SearchIcon />
 
-        <OtherMenusWrapper/>
-        <OtherMenusWrapper/>
-        
+        <OtherMenusWrapper />
+        <OtherMenusWrapper />
+
         <MenuWrapper />
       </Container>
     </Wrapper>

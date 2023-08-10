@@ -46,6 +46,7 @@ const Wrapper = styled.button`
 
   @media (max-width: 500px) {
     font-size: 16px;
+    min-width: 10px;
   }
 `;
 
