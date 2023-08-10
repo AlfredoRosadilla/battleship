@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 import { TILE_RESULTS } from './../constants/dashboard';
 import GameBoard from './../components/organisms/GameBoard';
@@ -18,6 +18,7 @@ function Dashboard({ boardSize, layout }) {
   const [shots, setShots] = useState([]);
   const [sunkShips, setSunkShips] = useState([]);
   const [virtualBoard, setVirtualBoard] = useState(null);
+  const shotsLength = useMemo(() => shots.length, [shots]);
   const methods = Object.assign(new Methods(), {
     layout,
     boardSize,
@@ -46,9 +47,12 @@ function Dashboard({ boardSize, layout }) {
       />
 
       <div className="game-status">
-        {shots.length > 0 && (
+        {shotsLength > 0 && (
           <div>
-            <h2>Last Shot:</h2>
+            <h2>
+              Last Shot: ({shots[shotsLength - (shotsLength > 1 ? 2 : 1)].x},{' '}
+              {shots[shotsLength - (shotsLength > 1 ? 2 : 1)].y})
+            </h2>
             <p>
               Position: ({shots[shots.length - 1].x},{' '}
               {shots[shots.length - 1].y}) Status:{' '}
@@ -58,7 +62,7 @@ function Dashboard({ boardSize, layout }) {
         )}
 
         {sunkShips.map((ship) => (
-          <div key={ship}>The {ship} has been sunk!</div>
+          <h3 key={ship}>💥The {ship} has been sunk!💥</h3>
         ))}
       </div>
     </div>
@@ -130,13 +134,20 @@ Methods.prototype.handleShot = function handleShot(x, y) {
       const isSunk = shipLayout.positions.every((position) => {
         const [posX, posY] = position;
 
+        if (posX === x && posY === y) {
+          return true;
+        }
+
         return shots.some(
-          (shot) => shot.x === posX && shot.y === posY && shot.status === 'hit',
+          (shot) =>
+            shot.x === posX &&
+            shot.y === posY &&
+            shot.status === TILE_RESULTS.HIT,
         );
       });
 
       if (isSunk) {
-        setSunkShips((prevSunkShips) => {
+        this.setSunkShips((prevSunkShips) => {
           console.log(`Adding ${shipHit} to sunk ships`);
 
           return [...prevSunkShips, shipHit];

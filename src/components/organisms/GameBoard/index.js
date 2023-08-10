@@ -5,6 +5,11 @@ import styled from 'styled-components';
 import Tile from './../../atoms/Tile';
 import { TILE_RESULTS } from './../../../constants/dashboard';
 
+const Column = styled.div`
+  flex-direction: column;
+  display: flex;
+`;
+
 const Row = styled.div`
   display: flex;
 `;
@@ -33,10 +38,7 @@ function GameBoard({
   }
 
   return (
-    <div
-      data-testid={`${testId}-game-board`}
-      className={`${className} columns is-multiline`}
-    >
+    <Column className={`${className}`} data-testid={`${testId}-game-board`}>
       {virtualBoard.map((column, x) => (
         <Row key={`column-${x}`}>
           {column.map((cellValue, y) => (
@@ -49,7 +51,7 @@ function GameBoard({
           ))}
         </Row>
       ))}
-    </div>
+    </Column>
   );
 }
 
