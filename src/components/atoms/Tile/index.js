@@ -28,8 +28,6 @@ const tileContent = {
 };
 
 const Wrapper = styled.button`
-  height: 10%;
-  width: 10%;
   background-color: ${({ status }) => tileColors[status]};
   display: flex;
   align-items: center;
