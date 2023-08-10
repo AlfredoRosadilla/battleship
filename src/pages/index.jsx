@@ -6,6 +6,7 @@ import GameBoard from './../components/organisms/GameBoard';
 
 export const Wrapper = styled.section`
   width: 90%;
+  max-width: 760px;
 `;
 
 /**
