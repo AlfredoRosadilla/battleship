@@ -10,9 +10,11 @@ const Wrapper = styled.section`
 `;
 
 const LoaderWrapper = styled.div`
+  align-items: center;
   display: flex;
   background-color: #20243f;
   height: 100vh;
+  justify-content: center;
   left: 0;
   top: 0;
   position: absolute;
@@ -36,6 +38,18 @@ const LoaderWrapper = styled.div`
   }
 `;
 
+const LoaderContainer = styled.div`
+  align-items: center;
+  display: flex;
+  height: 200px;
+  flex-direction: column;
+`;
+
+const Nice = styled.h3`
+  color: white;
+  font-weight: 700;
+`;
+
 /**
  * Dashboard page
  * @param {props} props
@@ -44,8 +58,9 @@ const LoaderWrapper = styled.div`
 function Dashboard({ boardSize, layout, imageData }) {
   const testId = 'dashboard';
   const [shots, setShots] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [sunkShips, setSunkShips] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [tilesFilled, setTilesFilled] = useState(0);
   const [virtualBoard, setVirtualBoard] = useState(null);
   const shotsLength = useMemo(() => shots.length, [shots]);
   const methods = Object.assign(new Methods(), {
@@ -54,10 +69,12 @@ function Dashboard({ boardSize, layout, imageData }) {
 
     shots,
     sunkShips,
+    tilesFilled,
 
     setShots,
     virtualBoard,
     setSunkShips,
+    setTilesFilled
   });
 
   useEffect(() => {
@@ -68,12 +85,23 @@ function Dashboard({ boardSize, layout, imageData }) {
     }, 2000);
   }, []);
 
+  useEffect(() => {
+    if (tilesFilled === boardSize * 2) {
+      setIsLoading(true);
+    }
+  }, [tilesFilled])
+
   return isLoading ? (
     <LoaderWrapper>
-      <img
-        src={`data:image/png;base64,${imageData}`}
-        alt="similar-to-reddit-without-logo-rigths-issues"
-      />
+      <LoaderContainer>
+        <img
+          src={`data:image/png;base64,${imageData}`}
+          alt="similar-to-reddit-without-logo-rigths-issues"
+        />
+        { tilesFilled === boardSize * 2 && (
+          <Nice>nice</Nice>
+        )}
+      </LoaderContainer>
     </LoaderWrapper>
   ) : (
     <Wrapper>
@@ -161,6 +189,8 @@ Methods.prototype.handleShot = function handleShot(x, y) {
   // If shot already made at this position, ignore
   if (!this.positionAlreadyShooted(x, y)) {
     const result = this.setHitOrMiss(x, y);
+
+    this.setTilesFilled((prev) => prev + 1);
 
     // If it's a hit, check if the entire ship has been sunk
     if (result === TILE_RESULTS.HIT) {
