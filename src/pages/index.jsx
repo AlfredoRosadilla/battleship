@@ -86,7 +86,7 @@ function Dashboard({ boardSize, layout, imageData }) {
   }, []);
 
   useEffect(() => {
-    if (tilesFilled === boardSize * 2) {
+    if (tilesFilled === boardSize * boardSize) {
       setIsLoading(true);
     }
   }, [tilesFilled])
@@ -98,7 +98,7 @@ function Dashboard({ boardSize, layout, imageData }) {
           src={`data:image/png;base64,${imageData}`}
           alt="similar-to-reddit-without-logo-rigths-issues"
         />
-        { tilesFilled === boardSize * 2 && (
+        { tilesFilled === boardSize * boardSize && (
           <Nice>nice</Nice>
         )}
       </LoaderContainer>
