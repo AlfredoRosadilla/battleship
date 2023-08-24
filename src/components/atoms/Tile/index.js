@@ -55,11 +55,12 @@ const Wrapper = styled.button`
  * @param {props} props
  * @returns Tile component instance
  */
-function Tile({ testId, className, onShot, status }) {
+function Tile({ testId, className, onShot, status, tabIndex }) {
   return (
     <Wrapper
       status={status}
       onClick={onShot}
+      tabIndex={tabIndex}
       data-testid={`${testId}-tile`}
       className={`${className} column is-1`}
     >

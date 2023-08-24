@@ -1,6 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import React, { useRef, useEffect } from 'react';
 
 import Tile from './../../atoms/Tile';
 import { TILE_RESULTS } from './../../../constants/dashboard';
@@ -35,18 +35,72 @@ function GameBoard({
   onShot,
   virtualBoard,
 }) {
+  const mainElement = useRef(null);
   const methods = Object.assign(new Methods(), {
     shots,
 
     virtualBoard,
   });
 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      const currentTile = document.activeElement;
+
+      if (currentTile) {
+        let newTileToFocus = null;
+
+        switch (event.keyCode) {
+          case 37: // Flecha izquierda
+            console.log('left');
+            newTileToFocus = currentTile.previousSibling;
+            break;
+          case 38: // Flecha arriba
+            console.log('top');
+            const prevRow = currentTile.parentNode.previousSibling;
+            if (prevRow) {
+              const tileIndex = Array.from(
+                currentTile.parentNode.children,
+              ).indexOf(currentTile);
+              newTileToFocus = prevRow.children[tileIndex] || null;
+            }
+            break;
+          case 39: // Flecha derecha
+            console.log('right');
+            newTileToFocus = currentTile.nextSibling;
+            break;
+          case 40: // Flecha abajo
+            console.log('down');
+            const nextRow = currentTile.parentNode.nextSibling;
+            if (nextRow) {
+              const tileIndex = Array.from(
+                currentTile.parentNode.children,
+              ).indexOf(currentTile);
+              newTileToFocus = nextRow.children[tileIndex] || null;
+            }
+            break;
+          default:
+            break;
+        }
+
+        if (newTileToFocus) {
+          newTileToFocus.focus();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [mainElement]);
+
   if (!virtualBoard) {
     return null;
   }
 
   return (
-    <GameWrapper>
+    <GameWrapper ref={mainElement}>
       <Column className={`${className}`} data-testid={`${testId}-game-board`}>
         {virtualBoard.map((column, x) => (
           <Row key={`column-${x}`}>

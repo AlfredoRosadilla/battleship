@@ -25,7 +25,7 @@ const LoaderWrapper = styled.div`
     border-radius: 100%;
     margin: auto;
     max-width: 200px;
-    animation: rotateSlowly 24s linear infinite; 
+    animation: rotateSlowly 24s linear infinite;
   }
 
   @keyframes rotateSlowly {
@@ -74,7 +74,7 @@ function Dashboard({ boardSize, layout, imageData }) {
     setShots,
     virtualBoard,
     setSunkShips,
-    setTilesFilled
+    setTilesFilled,
   });
 
   useEffect(() => {
@@ -89,7 +89,7 @@ function Dashboard({ boardSize, layout, imageData }) {
     if (sunkShips.length === layout.length) {
       setIsLoading(true);
     }
-  }, [sunkShips])
+  }, [sunkShips]);
 
   return isLoading ? (
     <LoaderWrapper>
@@ -98,9 +98,7 @@ function Dashboard({ boardSize, layout, imageData }) {
           src={`data:image/png;base64,${imageData}`}
           alt="similar-to-reddit-without-logo-rigths-issues"
         />
-        { sunkShips.length === layout.length && (
-          <Nice>nice</Nice>
-        )}
+        {sunkShips.length === layout.length && <Nice>nice</Nice>}
       </LoaderContainer>
     </LoaderWrapper>
   ) : (
