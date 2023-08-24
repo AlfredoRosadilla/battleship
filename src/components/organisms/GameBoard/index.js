@@ -51,11 +51,13 @@ function GameBoard({
 
         switch (event.keyCode) {
           case 37: // Flecha izquierda
-            console.log('left');
             newTileToFocus = currentTile.previousSibling;
+            if (!newTileToFocus && currentTile.parentNode.previousSibling) {
+              // Si no hay previousSibling, intenta moverte a la última tile de la fila anterior
+              newTileToFocus = currentTile.parentNode.previousSibling.lastChild;
+            }
             break;
           case 38: // Flecha arriba
-            console.log('top');
             const prevRow = currentTile.parentNode.previousSibling;
             if (prevRow) {
               const tileIndex = Array.from(
@@ -65,11 +67,13 @@ function GameBoard({
             }
             break;
           case 39: // Flecha derecha
-            console.log('right');
             newTileToFocus = currentTile.nextSibling;
+            if (!newTileToFocus && currentTile.parentNode.nextSibling) {
+              // Si no hay nextSibling, intenta moverte a la primera tile de la siguiente fila
+              newTileToFocus = currentTile.parentNode.nextSibling.firstChild;
+            }
             break;
           case 40: // Flecha abajo
-            console.log('down');
             const nextRow = currentTile.parentNode.nextSibling;
             if (nextRow) {
               const tileIndex = Array.from(
